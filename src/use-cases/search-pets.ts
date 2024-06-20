@@ -1,26 +1,26 @@
-// import { GymsRepository } from "@/repositories/gyms-repository";
-// import { Gym } from "@prisma/client";
+import { Pet } from "@prisma/client";
+import { PetsRepository } from "../repositories/pets-repository";
 
-// interface SearchGymsUseCaseRequest {
-// 	query: string;
-// 	page: number;
-// }
+interface SearchPetsUseCaseRequest {
+	query: string;
+	page: number;
+}
 
-// interface SearchGymsUseCaseResponse {
-// 	gyms: Gym[];
-// }
+interface SearchPetsUseCaseResponse {
+	pets: Pet[];
+}
 
-// export class SearchGymsUseCase {
-// 	constructor(private gymsRepository: GymsRepository) {}
+export class SearchPetsUseCase {
+	constructor(private petsRepository: PetsRepository) {}
 
-// 	async execute({
-// 		query,
-// 		page,
-// 	}: SearchGymsUseCaseRequest): Promise<SearchGymsUseCaseResponse> {
-// 		const gyms = await this.gymsRepository.searchMany(query, page);
+	async execute({
+		query,
+		page,
+	}: SearchPetsUseCaseRequest): Promise<SearchPetsUseCaseResponse> {
+		const pets = await this.petsRepository.searchMany(query, page);
 
-// 		return {
-// 			gyms,
-// 		};
-// 	}
-// }
+		return {
+			pets,
+		};
+	}
+}
