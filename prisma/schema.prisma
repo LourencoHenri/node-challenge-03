@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,48 +7,127 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pet {
-  id          String   @id @default(uuid())
-  name        String
-  age         Int
-  species     String
-  breed       String
-  description String
-  city        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  org   Org    @relation(fields: [orgId], references: [id])
-  orgId String
-
-  @@map("pets")
-}
-
-model Org {
-  id        String   @id @default(uuid())
-  name      String
-  city      String
-  address   String
-  whatsapp  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  pets  Pet[]
-  users User[]
-
-  @@map("orgs")
-}
-
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String @id @default(uuid())
+  name         String
+  email        String @unique
+  passwordHash String @map("password_hash")
 
-  org   Org    @relation(fields: [orgId], references: [id])
-  orgId String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
 
-  @@map("users")
+  // profile   Profile? @relation(fields: [profileId], references: [id])
+  // profileId String   @map("profile_id")
 }
+
+model Profile {
+  id        String  @id @default(uuid())
+  age       String?
+  name      String?
+  phone     String?
+  avatarUrl String? @map("avatar_url")
+  birthdate String?
+  weight    String?
+  height    String?
+  goals     String?
+
+  postalCode    String? @map("postal_code")
+  address       String?
+  neighbourhood String?
+  city          String?
+  country       String?
+  // User          User[]
+}
+
+// enum Role {
+//   ADMIN
+//   MANAGER
+//   INSTRUCTOR
+//   BILLING
+//   MEMBER
+//   RECEPTIONIST
+//   TECHNICAL_SUPPORT
+//   DEVELOPER
+//   DEV_OPS
+//   TENANT_MANAGER
+// }
+
+// model Member {
+//   id   String @id @default(uuid())
+//   role Role   @default(MEMBER)
+
+//   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+//   organizationId String       @map("organization_id")
+
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId String @map("user_id")
+
+//   @@unique([organizationId, userId])
+//   @@map("members")
+// }
+
+// model Organization {
+//   id                        String   @id @default(uuid())
+//   name                      String
+//   slug                      String   @unique
+//   domain                    String?  @unique
+//   shouldAttachUsersByDomain Boolean  @default(false) @map("should_attach_users_by_domain")
+//   avatarUrl                 String?  @map("avatar_url")
+//   createdAt                 DateTime @default(now()) @map("created_at")
+//   updatedAt                 DateTime @updatedAt @map("updated_at")
+
+//   owner   User   @relation(fields: [ownerId], references: [id])
+//   ownerId String @map("owner_id")
+
+//   members Member[]
+
+//   @@map("organizations")
+// }
+
+// enum TokenType {
+//   PASSWORD_RECOVER
+// }
+
+// model Token {
+//   id        String    @id @default(uuid())
+//   type      TokenType
+//   createdAt DateTime  @default(now()) @map("created_at")
+
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId String @map("user_id")
+
+//   @@map("tokens")
+// }
+
+// model Training {
+//   id          String   @id @default(uuid())
+//   name        String
+//   description String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+
+//   TrainingSection TrainingSection[]
+// }
+
+// model TrainingSection {
+//   id          String  @id @default(uuid())
+//   name        String
+//   description String?
+
+//   training   Training @relation(fields: [trainingId], references: [id])
+//   trainingId String   @map("training_id")
+
+//   exercises Exercise[]
+// }
+
+// model Exercise {
+//   id          Int     @id @default(autoincrement())
+//   name        String
+//   description String?
+//   set         Int
+//   repetition  Int
+//   weight      Float
+
+//   trainingSection   TrainingSection @relation(fields: [trainingSectionId], references: [id])
+//   trainingSectionId String          @map("training_section_id")
+// }
