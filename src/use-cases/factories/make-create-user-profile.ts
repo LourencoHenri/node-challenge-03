@@ -1,5 +1,5 @@
-import { PrismaProfilesRepository } from "../../repositories/prisma/prisma-profiles-repository";
-import { CreateProfileUseCase } from "../create-profile";
+import { PrismaProfilesRepository } from '../../repositories/prisma/prisma-profiles-repository';
+import { CreateProfileUseCase } from '../create-profile';
 
 export function makeCreateProfileUseCase() {
 	const profilesRepository = new PrismaProfilesRepository();

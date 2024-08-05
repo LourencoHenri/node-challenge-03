@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+
 import { makeAuthenticateUseCase } from "../../../use-cases/factories/make-authenticate-use-case";
 import { InvalidCredentialsError } from "../../../use-cases/errors/invalid-credentials-error";
 
@@ -35,19 +36,19 @@ export async function authenticate(
 			},
 		});
 
-		return (
-			reply
-				// .setCookie("refreshToken", refreshToken, {
-				// 	path: "/",
-				// 	secure: true,
-				// 	sameSite: true,
-				// 	httpOnly: true,
-				// })
-				.status(200)
-				.send({
+		return reply
+			.setCookie("refreshToken", refreshToken, {
+				path: "/",
+				secure: true,
+				sameSite: true,
+				httpOnly: true,
+			})
+			.status(200)
+			.send([
+				{
 					token,
-				})
-		);
+				},
+			]);
 	} catch (err) {
 		if (err instanceof InvalidCredentialsError) {
 			return reply.status(400).send({ message: err.message });

@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -7,11 +7,11 @@ CREATE TABLE "User" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Profile" (
+CREATE TABLE "profiles" (
     "id" TEXT NOT NULL,
     "age" TEXT,
     "name" TEXT,
@@ -23,12 +23,19 @@ CREATE TABLE "Profile" (
     "goals" TEXT,
     "postal_code" TEXT,
     "address" TEXT,
-    "neighbourhood" TEXT,
+    "neighborhood" TEXT,
     "city" TEXT,
     "country" TEXT,
+    "userId" TEXT NOT NULL,
 
-    CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "profiles_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "profiles_userId_key" ON "profiles"("userId");
+
+-- AddForeignKey
+ALTER TABLE "profiles" ADD CONSTRAINT "profiles_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -1,5 +1,5 @@
-import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
+import fastifyJwt from "@fastify/jwt";
 import fastify from "fastify";
 
 import { ZodError } from "zod";
@@ -21,6 +21,8 @@ app.register(fastifyJwt, {
 });
 
 app.register(usersRoutes);
+
+app.register(fastifyCookie);
 
 app.setErrorHandler((error, _, reply) => {
 	if (error instanceof ZodError) {

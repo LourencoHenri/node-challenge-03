@@ -1,5 +1,6 @@
 import { Prisma, Profile } from "@prisma/client";
 
 export interface ProfilesRepository {
-	create(data: Prisma.ProfileCreateInput): Promise<Profile>;
+	findById(id: string): Promise<Profile | null>;
+	create(data: { userId: string }): Promise<Profile>;
 }

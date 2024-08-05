@@ -4,9 +4,23 @@ import { Prisma } from "@prisma/client";
 import { ProfilesRepository } from "../profiles-repository";
 
 export class PrismaProfilesRepository implements ProfilesRepository {
-	async create(data: Prisma.ProfileCreateInput) {
+	async findById(id: string) {
+		const profile = await prisma.profile.findUnique({
+			where: {
+				id,
+			},
+		});
+
+		return profile;
+	}
+
+	async create(data: { userId: string }) {
 		const profile = await prisma.profile.create({
-			data,
+			data: {
+				user: {
+					connect: { id: data.userId },
+				},
+			},
 		});
 
 		return profile;
